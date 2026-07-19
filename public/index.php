@@ -4,30 +4,20 @@
  * Courier Management System - Entry Point
  */
 
-require_once __DIR__ . '/../vendor/autoload.php';
+// Define project root
+define('ROOT_PATH', dirname(__DIR__));
 
-// Initialize Dotenv
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
-$dotenv->load();
+// Load custom Bootstrap
+require_once ROOT_PATH . '/core/Bootstrap.php';
 
-// Start Session
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
-// Security: Session Regeneration
-if (!isset($_SESSION['created_at'])) {
-    $_SESSION['created_at'] = time();
-} elseif (time() - $_SESSION['created_at'] > 1800) {
-    session_regenerate_id(true);
-    $_SESSION['created_at'] = time();
-}
+// Initialize the application
+Core\Bootstrap::init();
 
 // Initialize Router
-$router = require_once __DIR__ . '/../routes/web.php';
+$router = require_once ROOT_PATH . '/routes/web.php';
 
 // Dispatch Request
-$url = $_SERVER['REQUEST_URI'];
-$method = $_SERVER['REQUEST_METHOD'];
+$url = $_SERVER['REQUEST_URI'] ?? '/';
+$method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
 
 $router->dispatch($url, $method);
