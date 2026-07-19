@@ -10,6 +10,9 @@ class Bootstrap {
     }
 
     private static function registerAutoloader() {
+        // Load Auth Helpers
+        require_once __DIR__ . '/../app/Helpers/Auth.php';
+
         spl_autoload_register(function ($class) {
             $prefixes = [
                 'App\\' => __DIR__ . '/../app/',

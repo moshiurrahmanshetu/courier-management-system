@@ -9,7 +9,7 @@ use App\Middleware\AuthMiddleware;
 
 class DashboardController extends Controller {
     public function index() {
-        AuthMiddleware::handle();
+        \App\Middleware\RoleMiddleware::requirePermission('dashboard.view');
         
         $userModel = new User();
         $user = $userModel->findById(Session::get('user_id'));

@@ -16,13 +16,13 @@ class ProfileController extends Controller {
     }
 
     public function index() {
-        AuthMiddleware::handle();
+        \App\Middleware\RoleMiddleware::requirePermission('profile.view');
         $user = $this->userModel->findById(Session::get('user_id'));
         $this->view('profile.index', ['user' => $user]);
     }
 
     public function update() {
-        AuthMiddleware::handle();
+        \App\Middleware\RoleMiddleware::requirePermission('profile.edit');
         
         $name = htmlspecialchars(strip_tags($_POST['name'] ?? ''));
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
@@ -44,7 +44,7 @@ class ProfileController extends Controller {
     }
 
     public function updateAvatar() {
-        AuthMiddleware::handle();
+        \App\Middleware\RoleMiddleware::requirePermission('profile.edit');
         
         $csrf_token = $_POST['csrf_token'] ?? '';
         if (!CSRF::verify($csrf_token)) {
@@ -84,7 +84,7 @@ class ProfileController extends Controller {
     }
 
     public function updatePassword() {
-        AuthMiddleware::handle();
+        \App\Middleware\RoleMiddleware::requirePermission('profile.edit');
         
         $current_password = $_POST['current_password'] ?? '';
         $new_password = $_POST['new_password'] ?? '';

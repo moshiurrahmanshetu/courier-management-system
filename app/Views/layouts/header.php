@@ -29,12 +29,13 @@
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle"></i> <?= \App\Helpers\Session::get('user_name') ?>
+                        <i class="bi bi-person-circle"></i> <?= htmlspecialchars(user()['name']) ?> 
+                        <span class="badge bg-light text-dark ms-1 small"><?= htmlspecialchars(user()['role']) ?></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-menu-item dropdown-item" href="<?= $_ENV['APP_URL'] ?>/profile">Profile</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                        <li><a class="dropdown-item" href="<?= $_ENV['APP_URL'] ?>/profile"><i class="bi bi-person me-2"></i> Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-menu-item dropdown-item text-danger" href="<?= $_ENV['APP_URL'] ?>/logout">Logout</a></li>
+                        <li><a class="dropdown-item text-danger" href="<?= $_ENV['APP_URL'] ?>/logout"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
                     </ul>
                 </li>
             </ul>
@@ -47,12 +48,48 @@
             <div class="position-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="<?= $_ENV['APP_URL'] ?>/dashboard">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/dashboard') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/dashboard">
                             <i class="bi bi-speedometer2 me-2"></i> Dashboard
                         </a>
                     </li>
+                    
+                    <?php if (can('users.view')): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= $_ENV['APP_URL'] ?>/profile">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/users') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/users">
+                            <i class="bi bi-people me-2"></i> Users
+                        </a>
+                    </li>
+                    <?php endif; ?>
+
+                    <?php if (can('roles.view') || can('permissions.view')): ?>
+                    <li class="nav-item mt-3">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase small fw-bold">
+                            <span>RBAC Management</span>
+                        </h6>
+                    </li>
+                    <?php if (can('roles.view')): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/roles') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/roles">
+                            <i class="bi bi-shield-check me-2"></i> Roles
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <?php if (can('permissions.view')): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/permissions') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/permissions">
+                            <i class="bi bi-key me-2"></i> Permissions
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                    <?php endif; ?>
+
+                    <li class="nav-item mt-3">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase small fw-bold">
+                            <span>Account</span>
+                        </h6>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/profile') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/profile">
                             <i class="bi bi-person me-2"></i> Profile
                         </a>
                     </li>
