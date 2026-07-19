@@ -35,6 +35,14 @@ class AuthController extends Controller {
         $user = $this->userModel->findByEmail($email);
 
         if ($user && password_verify($password, $user['password'])) {
+            if ($user['status'] !== 'active') {
+                Session::flash('error', 'Your account is inactive.');
+                $this->redirect('/login');
+            }
+
+            $this->userModel->updateLoginInfo($user['id'], $_SERVER['REMOTE_ADDR'] ?? null);
+            logActivity('Login', 'User logged in successfully');
+
             Session::set('user_id', $user['id']);
             Session::set('user_name', $user['name']);
             Session::set('user_role', $user['role']);
@@ -54,7 +62,9 @@ class AuthController extends Controller {
         AuthMiddleware::guest();
         
         $name = htmlspecialchars(strip_tags($_POST['name'] ?? ''));
+        $username = htmlspecialchars(strip_tags($_POST['username'] ?? ''));
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $mobile = htmlspecialchars(strip_tags($_POST['mobile'] ?? ''));
         $password = $_POST['password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
         $csrf_token = $_POST['csrf_token'] ?? '';
@@ -73,8 +83,24 @@ class AuthController extends Controller {
             Session::flash('error', 'Email already exists.');
             $this->redirect('/register');
         }
+        
+        if ($this->userModel->findByUsername($username)) {
+            Session::flash('error', 'Username already exists.');
+            $this->redirect('/register');
+        }
 
-        if ($this->userModel->create(['name' => $name, 'email' => $email, 'password' => $password])) {
+        $userData = [
+            'name' => $name,
+            'username' => $username,
+            'email' => $email,
+            'mobile' => $mobile,
+            'password' => $password,
+            'role_slug' => 'general-user',
+            'status' => 'active'
+        ];
+
+        if ($this->userModel->create($userData)) {
+            logActivity('Registration', "New user registered: $username");
             Session::flash('success', 'Registration successful. Please login.');
             $this->redirect('/login');
         } else {
@@ -84,6 +110,7 @@ class AuthController extends Controller {
     }
 
     public function logout() {
+        logActivity('Logout', 'User logged out');
         Session::destroy();
         header("Location: " . ($_ENV['APP_URL'] ?? '') . "/login");
         exit;

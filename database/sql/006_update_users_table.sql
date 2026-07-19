@@ -1,0 +1,12 @@
+ALTER TABLE users 
+ADD COLUMN username VARCHAR(100) UNIQUE AFTER name,
+ADD COLUMN mobile VARCHAR(20) UNIQUE AFTER email,
+ADD COLUMN gender ENUM('male', 'female', 'other') DEFAULT 'other' AFTER avatar,
+ADD COLUMN dob DATE DEFAULT NULL AFTER gender,
+ADD COLUMN address TEXT DEFAULT NULL AFTER dob,
+ADD COLUMN status ENUM('active', 'inactive') DEFAULT 'active' AFTER address,
+ADD COLUMN email_verified_at TIMESTAMP NULL DEFAULT NULL AFTER status,
+ADD COLUMN last_login_at TIMESTAMP NULL DEFAULT NULL,
+ADD COLUMN last_login_ip VARCHAR(45) DEFAULT NULL,
+ADD COLUMN password_change_required TINYINT(1) DEFAULT 0,
+ADD COLUMN deleted_at TIMESTAMP NULL DEFAULT NULL;

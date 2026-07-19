@@ -21,8 +21,15 @@ $router->add('POST', '/profile/password', 'ProfileController@updatePassword');
 
 // User Management
 $router->add('GET', '/users', 'UserController@index');
-$router->add('GET', '/users/edit-role', 'UserController@editRole');
-$router->add('POST', '/users/update-role', 'UserController@updateRole');
+$router->add('GET', '/users/create', 'UserController@create');
+$router->add('POST', '/users/store', 'UserController@store');
+$router->add('GET', '/users/show', 'UserController@show');
+$router->add('GET', '/users/edit', 'UserController@edit');
+$router->add('POST', '/users/update', 'UserController@update');
+$router->add('POST', '/users/delete', 'UserController@delete');
+
+// Activity Logs
+$router->add('GET', '/activity-logs', 'ActivityLogController@index');
 
 // Role Management
 $router->add('GET', '/roles', 'RoleController@index');

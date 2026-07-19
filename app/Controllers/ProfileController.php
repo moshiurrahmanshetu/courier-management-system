@@ -34,7 +34,23 @@ class ProfileController extends Controller {
         }
 
         $userId = Session::get('user_id');
-        if ($this->userModel->update($userId, ['name' => $name, 'email' => $email])) {
+        $mobile = htmlspecialchars(strip_tags($_POST['mobile'] ?? ''));
+        $gender = $_POST['gender'] ?? 'other';
+        $dob = $_POST['dob'] ?? null;
+        $address = htmlspecialchars(strip_tags($_POST['address'] ?? ''));
+
+        $updateData = [
+            'name' => $name,
+            'email' => $email,
+            'mobile' => $mobile,
+            'gender' => $gender,
+            'dob' => $dob,
+            'address' => $address,
+            'status' => 'active'
+        ];
+
+        if ($this->userModel->update($userId, $updateData)) {
+            logActivity('Profile Updated', 'User updated own profile');
             Session::set('user_name', $name);
             Session::flash('success', 'Profile updated successfully.');
         } else {
@@ -72,6 +88,7 @@ class ProfileController extends Controller {
                 if (move_uploaded_file($fileTmpPath, $dest_path)) {
                     $userId = Session::get('user_id');
                     $this->userModel->updateAvatar($userId, 'uploads/avatars/' . $newFileName);
+                    logActivity('Avatar Updated', 'User updated own avatar');
                     Session::flash('success', 'Avatar updated successfully.');
                 } else {
                     Session::flash('error', 'Error moving the uploaded file.');
@@ -102,6 +119,7 @@ class ProfileController extends Controller {
         if (password_verify($current_password, $user['password'])) {
             if ($new_password === $confirm_password) {
                 $this->userModel->updatePassword($userId, $new_password);
+                logActivity('Password Changed', 'User changed own password');
                 Session::flash('success', 'Password updated successfully.');
             } else {
                 Session::flash('error', 'New passwords do not match.');
