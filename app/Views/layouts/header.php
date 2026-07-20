@@ -81,6 +81,13 @@
                         </a>
                     </li>
                     <?php endif; ?>
+                    <?php if (can('activity_logs.view')): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/activity-logs') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/activity-logs">
+                            <i class="bi bi-journal-text me-2"></i> Activity Logs
+                        </a>
+                    </li>
+                    <?php endif; ?>
                     <?php endif; ?>
 
                     <li class="nav-item mt-3">
