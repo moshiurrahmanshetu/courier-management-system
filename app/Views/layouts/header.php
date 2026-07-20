@@ -61,6 +61,14 @@
                     </li>
                     <?php endif; ?>
 
+                    <?php if (can('customer.view')): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/customers') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/customers">
+                            <i class="bi bi-person-badge me-2"></i> Customers
+                        </a>
+                    </li>
+                    <?php endif; ?>
+
                     <?php if (can('roles.view') || can('permissions.view')): ?>
                     <li class="nav-item mt-3">
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase small fw-bold">

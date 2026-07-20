@@ -31,6 +31,16 @@ $router->add('POST', '/users/delete', 'UserController@delete');
 // Activity Logs
 $router->add('GET', '/activity-logs', 'ActivityLogController@index');
 
+// Customer Management
+$router->add('GET', '/customers', 'CustomerController@index');
+$router->add('GET', '/customers/create', 'CustomerController@create');
+$router->add('POST', '/customers/store', 'CustomerController@store');
+$router->add('GET', '/customers/show', 'CustomerController@show');
+$router->add('GET', '/customers/edit', 'CustomerController@edit');
+$router->add('POST', '/customers/update', 'CustomerController@update');
+$router->add('POST', '/customers/delete', 'CustomerController@delete');
+$router->add('POST', '/customers/restore', 'CustomerController@restore');
+
 // Role Management
 $router->add('GET', '/roles', 'RoleController@index');
 $router->add('GET', '/roles/create', 'RoleController@create');
