@@ -69,6 +69,14 @@
                     </li>
                     <?php endif; ?>
 
+                    <?php if (can('parcel.view')): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/parcels') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/parcels">
+                            <i class="bi bi-box-seam me-2"></i> Parcels
+                        </a>
+                    </li>
+                    <?php endif; ?>
+
                     <?php if (can('roles.view') || can('permissions.view')): ?>
                     <li class="nav-item mt-3">
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase small fw-bold">

@@ -41,6 +41,15 @@ $router->add('POST', '/customers/update', 'CustomerController@update');
 $router->add('POST', '/customers/delete', 'CustomerController@delete');
 $router->add('POST', '/customers/restore', 'CustomerController@restore');
 
+// Parcel Management
+$router->add('GET', '/parcels', 'ParcelController@index');
+$router->add('GET', '/parcels/create', 'ParcelController@create');
+$router->add('POST', '/parcels/store', 'ParcelController@store');
+$router->add('GET', '/parcels/show', 'ParcelController@show');
+$router->add('GET', '/parcels/edit', 'ParcelController@edit');
+$router->add('POST', '/parcels/update', 'ParcelController@update');
+$router->add('POST', '/parcels/delete', 'ParcelController@delete');
+
 // Role Management
 $router->add('GET', '/roles', 'RoleController@index');
 $router->add('GET', '/roles/create', 'RoleController@create');
