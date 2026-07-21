@@ -50,6 +50,18 @@ $router->add('GET', '/parcels/edit', 'ParcelController@edit');
 $router->add('POST', '/parcels/update', 'ParcelController@update');
 $router->add('POST', '/parcels/delete', 'ParcelController@delete');
 
+// Branch Management
+$router->add('GET', '/branches', 'BranchController@index');
+$router->add('GET', '/branches/create', 'BranchController@create');
+$router->add('POST', '/branches/store', 'BranchController@store');
+$router->add('GET', '/branches/edit', 'BranchController@edit');
+$router->add('POST', '/branches/update', 'BranchController@update');
+
+// Tracking Engine
+$router->add('GET', '/tracking', 'TrackingController@index');
+$router->add('GET', '/tracking/timeline', 'TrackingController@timeline');
+$router->add('POST', '/tracking/update', 'TrackingController@update');
+
 // Role Management
 $router->add('GET', '/roles', 'RoleController@index');
 $router->add('GET', '/roles/create', 'RoleController@create');

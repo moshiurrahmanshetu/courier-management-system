@@ -77,6 +77,22 @@
                     </li>
                     <?php endif; ?>
 
+                    <?php if (can('branch.view')): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/branches') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/branches">
+                            <i class="bi bi-building me-2"></i> Branches
+                        </a>
+                    </li>
+                    <?php endif; ?>
+
+                    <?php if (can('tracking.view')): ?>
+                    <li class="nav-item">
+                        <a class="nav-link <?= strpos($_SERVER['REQUEST_URI'], '/tracking') !== false ? 'active' : '' ?>" href="<?= $_ENV['APP_URL'] ?>/tracking">
+                            <i class="bi bi-geo-alt me-2"></i> Track Parcel
+                        </a>
+                    </li>
+                    <?php endif; ?>
+
                     <?php if (can('roles.view') || can('permissions.view')): ?>
                     <li class="nav-item mt-3">
                         <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase small fw-bold">
