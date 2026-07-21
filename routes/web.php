@@ -62,6 +62,21 @@ $router->add('GET', '/tracking', 'TrackingController@index');
 $router->add('GET', '/tracking/timeline', 'TrackingController@timeline');
 $router->add('POST', '/tracking/update', 'TrackingController@update');
 
+// Rider Management
+$router->add('GET', '/riders', 'RiderController@index');
+$router->add('GET', '/riders/create', 'RiderController@create');
+$router->add('POST', '/riders/store', 'RiderController@store');
+$router->add('GET', '/riders/edit', 'RiderController@edit');
+$router->add('POST', '/riders/update', 'RiderController@update');
+$router->add('POST', '/riders/delete', 'RiderController@delete');
+$router->add('GET', '/rider/dashboard', 'RiderController@dashboard');
+
+// Parcel Assignment
+$router->add('GET', '/assignments', 'AssignmentController@index');
+$router->add('GET', '/assignments/create', 'AssignmentController@create');
+$router->add('POST', '/assignments/store', 'AssignmentController@store');
+$router->add('POST', '/assignments/update-status', 'AssignmentController@updateStatus');
+
 // Role Management
 $router->add('GET', '/roles', 'RoleController@index');
 $router->add('GET', '/roles/create', 'RoleController@create');
