@@ -136,12 +136,13 @@ class UserController extends Controller {
 
         $data = [
             'name' => htmlspecialchars($_POST['name']),
+            'username' => htmlspecialchars($_POST['username']),
             'email' => filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL),
             'mobile' => htmlspecialchars($_POST['mobile']),
             'gender' => $_POST['gender'],
             'dob' => $_POST['dob'],
             'address' => htmlspecialchars($_POST['address']),
-            'status' => $_POST['status']
+            'status' => $_POST['status'] ?? 'inactive'
         ];
 
         // Role update logic

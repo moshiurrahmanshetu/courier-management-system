@@ -40,12 +40,18 @@ class AuthController extends Controller {
                 $this->redirect('/login');
             }
 
-            $this->userModel->updateLoginInfo($user['id'], $_SERVER['REMOTE_ADDR'] ?? null);
-            logActivity('Login', 'User logged in successfully');
-
             Session::set('user_id', $user['id']);
             Session::set('user_name', $user['name']);
             Session::set('user_role', $user['role']);
+            
+            $this->userModel->updateLoginInfo($user['id'], $_SERVER['REMOTE_ADDR'] ?? null);
+            logActivity('Login', 'User logged in successfully');
+
+            if ($user['password_change_required']) {
+                Session::flash('info', 'Please change your password before continuing.');
+                $this->redirect('/profile');
+            }
+
             $this->redirect('/dashboard');
         } else {
             Session::flash('error', 'Invalid email or password.');
@@ -96,7 +102,8 @@ class AuthController extends Controller {
             'mobile' => $mobile,
             'password' => $password,
             'role_slug' => 'general-user',
-            'status' => 'active'
+            'status' => 'active',
+            'password_change_required' => 0
         ];
 
         if ($this->userModel->create($userData)) {

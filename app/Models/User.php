@@ -70,6 +70,7 @@ class User extends Model {
     public function update($id, $data) {
         $sql = "UPDATE users SET 
                 name = :name, 
+                username = :username,
                 email = :email, 
                 mobile = :mobile,
                 gender = :gender,
@@ -78,9 +79,21 @@ class User extends Model {
                 status = :status,
                 updated_at = NOW() 
                 WHERE id = :id";
-        $data['id'] = $id;
+        
+        $params = [
+            'name' => $data['name'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'mobile' => $data['mobile'],
+            'gender' => $data['gender'],
+            'dob' => $data['dob'],
+            'address' => $data['address'],
+            'status' => $data['status'],
+            'id' => $id
+        ];
+
         $stmt = $this->db->prepare($sql);
-        return $stmt->execute($data);
+        return $stmt->execute($params);
     }
 
     public function updateAvatar($id, $avatar) {

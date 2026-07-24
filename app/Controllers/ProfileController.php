@@ -39,14 +39,16 @@ class ProfileController extends Controller {
         $dob = $_POST['dob'] ?? null;
         $address = htmlspecialchars(strip_tags($_POST['address'] ?? ''));
 
+        $user = $this->userModel->findById($userId);
         $updateData = [
             'name' => $name,
+            'username' => $user['username'], // Preserve username
             'email' => $email,
             'mobile' => $mobile,
             'gender' => $gender,
             'dob' => $dob,
             'address' => $address,
-            'status' => 'active'
+            'status' => $user['status'] // Preserve status
         ];
 
         if ($this->userModel->update($userId, $updateData)) {

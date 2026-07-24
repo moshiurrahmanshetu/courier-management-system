@@ -19,7 +19,11 @@
                      class="rounded-circle mb-3 border p-1" style="width: 150px; height: 150px; object-fit: cover;">
                 <h4><?= htmlspecialchars($user['name']) ?></h4>
                 <p class="text-muted">@<?= htmlspecialchars($user['username']) ?></p>
-                <span class="badge bg-info text-dark"><?= htmlspecialchars($user['role']) ?></span>
+                <span class="badge bg-info text-dark mb-2"><?= htmlspecialchars($user['role']) ?></span>
+                <br>
+                <span class="badge bg-<?= $user['status'] === 'active' ? 'success' : 'danger' ?>">
+                    <?= ucfirst($user['status']) ?>
+                </span>
                 
                 <form action="<?= $_ENV['APP_URL'] ?>/profile/avatar" method="POST" enctype="multipart/form-data" class="mt-4">
                     <?= \App\Helpers\CSRF::field() ?>
@@ -29,6 +33,24 @@
                     <button type="submit" class="btn btn-sm btn-outline-primary">Update Avatar</button>
                 </form>
             </div>
+        </div>
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-light fw-bold">Account Status</div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Joined Date
+                    <span><?= date('Y-m-d', strtotime($user['created_at'])) ?></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Last Login
+                    <span><?= $user['last_login_at'] ? date('Y-m-d H:i', strtotime($user['last_login_at'])) : 'Never' ?></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Last IP
+                    <span><?= htmlspecialchars($user['last_login_ip'] ?? 'N/A') ?></span>
+                </li>
+            </ul>
         </div>
     </div>
 
